@@ -25,7 +25,13 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       if @todo.save
-        format.html { redirect_to @todo, notice: "Todo was successfully created." }
+        format.html do
+          if params["commit"] == "Add"
+            redirect_to :controller => 'home', :action => 'index'
+          else
+            redirect_to @todo, notice: "Todo was successfully created."
+          end
+        end
         format.json { render :show, status: :created, location: @todo }
       else
         format.html { render :new, status: :unprocessable_entity }

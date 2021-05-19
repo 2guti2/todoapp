@@ -13,3 +13,32 @@
  *= require_tree .
  *= require_self
  */
+
+span.strike {
+    text-decoration: line-through;
+}
+.item {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+}
+button.action {
+    margin: 0;
+    font-size: 16px;
+    width: fit-content;
+}
+input[type="checkbox"] {
+    margin: 0;
+    padding: 0;
+}
+.d-inline {
+    display: inline-block;
+}
+.sortable-ghost {
+    opacity: 0.75;
+}
+form, .drag, .dropzone, .item {
+    width: 100% !important;
+}
