@@ -15,30 +15,19 @@
       <% @todos.each do |todo| %>
         <div class="dropzone grid gap-3" id="pool">
           <div draggable="true" class="item draggable">
-            <div>
+            <div data-controller="todo" data-todo-update-url="<%= todo_path(todo) %>">
               <div class="d-inline">
                 <i class="bi bi-grip-horizontal"></i>
               </div>
-              <input
-                type="checkbox"
-                <% if todo.done %>
-                  checked
-                <% end %>
-              />
-            <span
-              class="
-              <% if todo.done %>
-                  strike
-              <% end %>
-              "
-            >
-              <%= todo.title %>
-            </span>
+              <input type="checkbox"
+                     data-action="todo#toggle"
+                     data-target="todo.completed"  <% if todo.done %> checked<% end %>/>
+              <span class="<% if todo.done %>strike<% end %>">
+                <%= todo.title %>
+              </span>
             </div>
-              <div>
-                <%= link_to(raw('<i class="bi bi-trash"></i>'), todo_path(id: todo.id, src: 'Home'), data: 'hey', method: :delete, class: 'btn action btn-primary') %>
-              </div>
-            </div>
+            <%= link_to(raw('<i class="bi bi-trash"></i>'), todo_path(id: todo.id, src: 'Home'), data: 'hey', method: :delete, class: 'btn action btn-primary') %>
+          </div>
         </div>
       <% end %>
     </div>

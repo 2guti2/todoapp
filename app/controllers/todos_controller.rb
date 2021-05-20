@@ -42,13 +42,19 @@ class TodosController < ApplicationController
 
   # PATCH/PUT /todos/1 or /todos/1.json
   def update
-    respond_to do |format|
-      if @todo.update(todo_params)
-        format.html { redirect_to @todo, notice: "Todo was successfully updated." }
-        format.json { render :show, status: :ok, location: @todo }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @todo.errors, status: :unprocessable_entity }
+    if params["not_redirect"]
+      @todo = Todo.find_by_id params[:id]
+      @todo.update todo_params
+      @todo.save
+    else
+      respond_to do |format|
+        if @todo.update(todo_params)
+          format.html { redirect_to @todo, notice: "Todo was successfully updated." }
+          format.json { render :show, status: :ok, location: @todo }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @todo.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

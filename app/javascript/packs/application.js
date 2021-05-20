@@ -15,3 +15,45 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+function getMeta(metaName) {
+  const metas = document.getElementsByTagName('meta');
+
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+
+  return '';
+}
+
+export class TodoController extends Stimulus.Controller {
+  static targets = [ "completed" ]
+  toggle(event) {
+    let formData = new FormData();
+    formData.append("todo[done]", this.completedTarget.checked);
+    formData.append("not_redirect", true);
+    const url = this.data.get("update-url");
+    fetch(url, {
+      body: formData,
+      method: 'PATCH',
+      credentials: "include",
+      dataType: "script",
+      headers: {
+        "X-CSRF-Token": getMeta('csrf-token')
+      },
+    }).then(function(response) {
+      if (response.status != 204) {
+        event.target.checked = !event.target.checked
+      } else {
+        location.reload();
+      }
+    })
+  }
+}
+
+(() => {
+  const application = Stimulus.Application.start();
+  application.register("todo", TodoController)
+})();
