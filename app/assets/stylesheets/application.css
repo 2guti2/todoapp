@@ -42,3 +42,6 @@ input[type="checkbox"] {
 form, .drag, .dropzone, .item {
     width: 100% !important;
 }
+.bi-trash {
+    color: white !important;
+}

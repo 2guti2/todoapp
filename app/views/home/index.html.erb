@@ -36,9 +36,7 @@
             </span>
             </div>
               <div>
-                <button class="btn action btn-primary">
-                  <i class="bi bi-trash"></i>
-                </button>
+                <%= link_to(raw('<i class="bi bi-trash"></i>'), todo_path(id: todo.id, src: 'Home'), data: 'hey', method: :delete, class: 'btn action btn-primary') %>
               </div>
             </div>
         </div>

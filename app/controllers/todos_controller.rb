@@ -26,8 +26,8 @@ class TodosController < ApplicationController
     respond_to do |format|
       if @todo.save
         format.html do
-          if params["commit"] == "Add"
-            redirect_to :controller => 'home', :action => 'index'
+          if from_home?
+            redirect_home
           else
             redirect_to @todo, notice: "Todo was successfully created."
           end
@@ -55,9 +55,16 @@ class TodosController < ApplicationController
 
   # DELETE /todos/1 or /todos/1.json
   def destroy
+    puts params
     @todo.destroy
     respond_to do |format|
-      format.html { redirect_to todos_url, notice: "Todo was successfully destroyed." }
+      format.html do
+        if from_home?
+          redirect_home
+        else
+          redirect_to todos_url, notice: "Todo was successfully destroyed."
+        end
+      end
       format.json { head :no_content }
     end
   end
@@ -71,5 +78,13 @@ class TodosController < ApplicationController
     # Only allow a list of trusted parameters through.
     def todo_params
       params.require(:todo).permit(:title, :done, :index)
+    end
+
+    def redirect_home
+      redirect_to :controller => 'home', :action => 'index'
+    end
+
+    def from_home?
+      params["commit"] == "Add" || params["src"] == "Home"
     end
 end
